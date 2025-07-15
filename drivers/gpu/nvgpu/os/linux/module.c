@@ -2051,7 +2051,7 @@ int nvgpu_remove(struct device *dev)
 	return err;
 }
 
-static int __exit gk20a_remove(struct platform_device *pdev)
+static int gk20a_remove(struct platform_device *pdev)
 {
 	int err;
 	struct device *dev = &pdev->dev;
@@ -2080,12 +2080,12 @@ static int __exit gk20a_remove(struct platform_device *pdev)
 }
 
 #if defined(NV_PLATFORM_DRIVER_STRUCT_REMOVE_RETURNS_VOID) /* Linux v6.11 */
-static inline void __exit gk20a_remove_wrapper(struct platform_device *pdev)
+static inline void gk20a_remove_wrapper(struct platform_device *pdev)
 {
 	gk20a_remove(pdev);
 }
 #else
-static inline int __exit gk20a_remove_wrapper(struct platform_device *pdev)
+static inline int gk20a_remove_wrapper(struct platform_device *pdev)
 {
 	return gk20a_remove(pdev);
 }
@@ -2093,7 +2093,7 @@ static inline int __exit gk20a_remove_wrapper(struct platform_device *pdev)
 
 static struct platform_driver gk20a_driver = {
 	.probe = gk20a_probe,
-	.remove = __exit_p(gk20a_remove_wrapper),
+	.remove = gk20a_remove_wrapper,
 	.shutdown = gk20a_pm_shutdown,
 	.driver = {
 		.owner = THIS_MODULE,
